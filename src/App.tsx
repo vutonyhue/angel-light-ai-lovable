@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import KnowledgeAdmin from "./pages/admin/KnowledgeAdmin";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,11 @@ const App = () => (
             <Route path="/knowledge/:id" element={
               <ProtectedRoute>
                 <KnowledgeTopic />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/knowledge" element={
+              <ProtectedRoute>
+                <KnowledgeAdmin />
               </ProtectedRoute>
             } />
             <Route path="/profile" element={

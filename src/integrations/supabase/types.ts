@@ -38,6 +38,39 @@ export type Database = {
         }
         Relationships: []
       }
+      knowledge_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          slug: string
+          sort_order: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       knowledge_topics: {
         Row: {
           category: string | null
@@ -46,6 +79,8 @@ export type Database = {
           description: string | null
           icon: string | null
           id: string
+          keywords: string[] | null
+          priority: number | null
           title: string
           updated_at: string
         }
@@ -56,6 +91,8 @@ export type Database = {
           description?: string | null
           icon?: string | null
           id?: string
+          keywords?: string[] | null
+          priority?: number | null
           title: string
           updated_at?: string
         }
@@ -66,6 +103,8 @@ export type Database = {
           description?: string | null
           icon?: string | null
           id?: string
+          keywords?: string[] | null
+          priority?: number | null
           title?: string
           updated_at?: string
         }
@@ -139,6 +178,20 @@ export type Database = {
       increment_light_points: {
         Args: { user_uuid: string }
         Returns: undefined
+      }
+      search_knowledge_topics: {
+        Args: { max_results?: number; search_query: string }
+        Returns: {
+          category: string
+          content: string
+          description: string
+          icon: string
+          id: string
+          keywords: string[]
+          priority: number
+          relevance_score: number
+          title: string
+        }[]
       }
     }
     Enums: {
