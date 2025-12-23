@@ -10,181 +10,117 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.1"
   }
   public: {
     Tables: {
-      chat_history: {
+      event_registrations: {
         Row: {
-          created_at: string
+          event_id: string
           id: string
-          message: string
-          role: string
+          registered_at: string
           user_id: string
         }
         Insert: {
-          created_at?: string
+          event_id: string
           id?: string
-          message: string
-          role: string
+          registered_at?: string
           user_id: string
         }
         Update: {
-          created_at?: string
+          event_id?: string
           id?: string
-          message?: string
-          role?: string
+          registered_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      knowledge_categories: {
+      events: {
         Row: {
-          created_at: string
-          description: string | null
-          icon: string | null
+          address: string
+          background_image_url: string
+          created_by: string
+          creator: string
+          date: string
+          description: string
           id: string
-          name: string
-          slug: string
-          sort_order: number | null
-          updated_at: string
+          target_date: string
+          time: string
+          title: string
         }
         Insert: {
-          created_at?: string
-          description?: string | null
-          icon?: string | null
+          address: string
+          background_image_url: string
+          created_by?: string
+          creator: string
+          date: string
+          description: string
           id?: string
-          name: string
-          slug: string
-          sort_order?: number | null
-          updated_at?: string
+          target_date: string
+          time: string
+          title: string
         }
         Update: {
-          created_at?: string
-          description?: string | null
-          icon?: string | null
+          address?: string
+          background_image_url?: string
+          created_by?: string
+          creator?: string
+          date?: string
+          description?: string
           id?: string
-          name?: string
-          slug?: string
-          sort_order?: number | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      knowledge_topics: {
-        Row: {
-          category: string | null
-          content: string
-          created_at: string
-          description: string | null
-          icon: string | null
-          id: string
-          keywords: string[] | null
-          priority: number | null
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          category?: string | null
-          content: string
-          created_at?: string
-          description?: string | null
-          icon?: string | null
-          id?: string
-          keywords?: string[] | null
-          priority?: number | null
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          category?: string | null
-          content?: string
-          created_at?: string
-          description?: string | null
-          icon?: string | null
-          id?: string
-          keywords?: string[] | null
-          priority?: number | null
+          target_date?: string
+          time?: string
           title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      light_points: {
-        Row: {
-          created_at: string
-          id: string
-          points: number
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          points?: number
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          points?: number
-          updated_at?: string
-          user_id?: string
         }
         Relationships: []
       }
       profiles: {
         Row: {
-          avatar: string | null
           created_at: string
           display_name: string | null
-          email: string | null
           id: string
-          universal_user_id: string | null
           updated_at: string
           user_id: string
-          wallet_address: string | null
         }
         Insert: {
-          avatar?: string | null
           created_at?: string
           display_name?: string | null
-          email?: string | null
           id?: string
-          universal_user_id?: string | null
           updated_at?: string
           user_id: string
-          wallet_address?: string | null
         }
         Update: {
-          avatar?: string | null
           created_at?: string
           display_name?: string | null
-          email?: string | null
           id?: string
-          universal_user_id?: string | null
           updated_at?: string
           user_id?: string
-          wallet_address?: string | null
         }
         Relationships: []
       }
       user_roles: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
@@ -203,27 +139,9 @@ export type Database = {
         }
         Returns: boolean
       }
-      increment_light_points: {
-        Args: { user_uuid: string }
-        Returns: undefined
-      }
-      search_knowledge_topics: {
-        Args: { max_results?: number; search_query: string }
-        Returns: {
-          category: string
-          content: string
-          description: string
-          icon: string
-          id: string
-          keywords: string[]
-          priority: number
-          relevance_score: number
-          title: string
-        }[]
-      }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -351,7 +269,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "user"],
     },
   },
 } as const
